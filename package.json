@@ -22,6 +22,8 @@
     "react",
     "component",
     "analyzer",
+    "server-components",
+    "client-components",
     "cli",
     "ast",
     "ts-morph"
