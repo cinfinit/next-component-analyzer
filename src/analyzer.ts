@@ -1,10 +1,26 @@
-import { Project, Node, SyntaxKind, FunctionDeclaration, VariableDeclaration } from "ts-morph"
+import { ts,Project, Node, SyntaxKind, FunctionDeclaration, VariableDeclaration } from "ts-morph"
 import { clientHooks, nextHooks, browserAPIs, eventHandlers } from "./rules"
+import fs from "fs"
+import path from "path"
 
-const project = new Project({
-  tsConfigFilePath: "tsconfig.json",
-  compilerOptions: { allowJs: true, jsx: 2 }
-})
+// Determine tsconfig path in the current working directory
+const tsconfigPath = path.join(process.cwd(), "tsconfig.json");
+
+// Initialize ts-morph Project safely
+const project = fs.existsSync(tsconfigPath)
+  ? new Project({ tsConfigFilePath: tsconfigPath })
+  : new Project({
+      compilerOptions: {
+        allowJs: true,
+        jsx: ts.JsxEmit.ReactJSX
+      }
+    });
+
+// If no tsconfig.json, manually add all source files
+if (!fs.existsSync(tsconfigPath)) {
+  console.log("⚠️  No tsconfig.json found. Using default compiler options and including all source files.");
+  project.addSourceFilesAtPaths("**/*.{ts,tsx,js,jsx}");
+}
 
 export function analyzeFile(filePath: string) {
   const sourceFile = project.addSourceFileAtPath(filePath)

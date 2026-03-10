@@ -1,12 +1,29 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.analyzeFile = analyzeFile;
 const ts_morph_1 = require("ts-morph");
 const rules_1 = require("./rules");
-const project = new ts_morph_1.Project({
-    tsConfigFilePath: "tsconfig.json",
-    compilerOptions: { allowJs: true, jsx: 2 }
-});
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+// Determine tsconfig path in the current working directory
+const tsconfigPath = path_1.default.join(process.cwd(), "tsconfig.json");
+// Initialize ts-morph Project safely
+const project = fs_1.default.existsSync(tsconfigPath)
+    ? new ts_morph_1.Project({ tsConfigFilePath: tsconfigPath })
+    : new ts_morph_1.Project({
+        compilerOptions: {
+            allowJs: true,
+            jsx: ts_morph_1.ts.JsxEmit.ReactJSX
+        }
+    });
+// If no tsconfig.json, manually add all source files
+if (!fs_1.default.existsSync(tsconfigPath)) {
+    console.log("⚠️  No tsconfig.json found. Using default compiler options and including all source files.");
+    project.addSourceFilesAtPaths("**/*.{ts,tsx,js,jsx}");
+}
 function analyzeFile(filePath) {
     const sourceFile = project.addSourceFileAtPath(filePath);
     const text = sourceFile.getFullText();
