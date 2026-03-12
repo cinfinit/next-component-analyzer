@@ -1,18 +1,10 @@
 #!/usr/bin/env node
 
-import { scanFiles } from "./scanner"
-import { analyzeFile } from "./analyzer"
 import { report } from "./reporter"
+import { analyzeProject } from "./analyzeProject"
 
 async function main() {
-  const files = await scanFiles()
-  const results = []
-
-  for (const file of files) {
-    const result = analyzeFile(file)
-    if (result) results.push(result)
-  }
-
+  const results = await analyzeProject()
   report(results)
 }
 

@@ -61,3 +61,24 @@ If it saved you from **ten**, we can both agree "use client" was getting a littl
 ---
 
 *P.S. If the analyzer roasts your component architecture… that's between you and your React hooks.*
+
+
+
+# Changelog
+
+## [0.1.2] - 2026-03-13
+
+### Programmatic API Support
+
+next-component-analyzer now exposes a programmatic API, allowing the analyzer to be used directly in scripts, CI pipelines, and other tooling instead of only through the CLI.
+
+✨ Added
+
+New function to run the analyzer programmatically.
+
+Results can now be consumed as structured data instead of only CLI output.
+
+Enables integrations with CI tools, custom dashboards, and developer workflows.
+
+---
+
