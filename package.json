@@ -1,6 +1,6 @@
 {
   "name": "next-component-analyzer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI tool that analyzes Next.js components and suggests whether they should be Server or Client components.",
   "main": "dist/analyzeProject.js",
   "bin": {
