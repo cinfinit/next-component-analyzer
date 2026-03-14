@@ -45,6 +45,50 @@ next-component-analyzer
 ```
 ---
 
+### Programmatic Usage
+
+`next-component-analyzer` can also be used programmatically in scripts, CI pipelines, or other developer tools.
+
+```javascript
+import { analyzeProject } from "next-component-analyzer"
+
+async function run() {
+  const results = await analyzeProject()
+
+  console.log(results)
+}
+
+run()
+```
+
+Example Output
+
+```javascript
+[
+  {
+    "filePath": "app/page.tsx",
+    "classification": "server",
+    "detected": ["fetch"]
+  },
+  {
+    "filePath": "components/button.tsx",
+    "classification": "client",
+    "detected": ["useState", "useEffect"]
+  }
+]
+```
+
+### Use Cases
+
+The programmatic API allows you to:
+
+- Integrate analysis into CI pipelines
+- Build custom reports or dashboards
+- Run automated architecture checks
+- Create editor or IDE integrations
+
+Internally, the CLI now uses the same programmatic API, ensuring consistent results across both usage methods. 
+
 ## 🧑‍💻 Author
 
 Built with mild obsession and an unreasonable number of AST nodes by **[cinfinit](https://github.com/cinfinit)**.
